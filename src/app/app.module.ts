@@ -8,6 +8,7 @@ import { PasswordListComponent } from './password-list/password-list.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { TopNavBarComponent } from './top-nav-bar/top-nav-bar.component';
 import { SiteFooterComponent } from './site-footer/site-footer.component';
+import { SiteLayoutComponent } from './site-layout/site-layout.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SiteFooterComponent } from './site-footer/site-footer.component';
     PasswordListComponent,
     SideBarComponent,
     TopNavBarComponent,
-    SiteFooterComponent
+    SiteFooterComponent,
+    SiteLayoutComponent
   ],
   imports: [
     BrowserModule,

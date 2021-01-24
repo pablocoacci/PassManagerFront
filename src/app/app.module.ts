@@ -9,6 +9,7 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import { TopNavBarComponent } from './top-nav-bar/top-nav-bar.component';
 import { SiteFooterComponent } from './site-footer/site-footer.component';
 import { SiteLayoutComponent } from './site-layout/site-layout.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SiteLayoutComponent } from './site-layout/site-layout.component';
     SideBarComponent,
     TopNavBarComponent,
     SiteFooterComponent,
-    SiteLayoutComponent
+    SiteLayoutComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

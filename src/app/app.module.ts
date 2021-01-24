@@ -10,6 +10,8 @@ import { TopNavBarComponent } from './top-nav-bar/top-nav-bar.component';
 import { SiteFooterComponent } from './site-footer/site-footer.component';
 import { SiteLayoutComponent } from './site-layout/site-layout.component';
 import { RegisterComponent } from './register/register.component';
+import { ProfileComponent } from './profile/profile.component';
+import { CreatePasswordComponent } from './create-password/create-password.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { RegisterComponent } from './register/register.component';
     TopNavBarComponent,
     SiteFooterComponent,
     SiteLayoutComponent,
-    RegisterComponent
+    RegisterComponent,
+    ProfileComponent,
+    CreatePasswordComponent
   ],
   imports: [
     BrowserModule,

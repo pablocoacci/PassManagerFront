@@ -12,6 +12,7 @@ import { SiteLayoutComponent } from './site-layout/site-layout.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CreatePasswordComponent } from './create-password/create-password.component';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { CreatePasswordComponent } from './create-password/create-password.compo
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DataTablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

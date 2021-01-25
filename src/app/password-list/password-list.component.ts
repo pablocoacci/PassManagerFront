@@ -110,19 +110,31 @@ export class PasswordListComponent implements OnInit {
         name: 'id',
         data: 'id',
         orderable: false,
-        render: (id: string) => '<a style="margin-left: 15px; margin-right: 15px;" href="'+id+'"><i class="fas fa-edit"></i></a><a name="btnDeletePass" href="javascript:void(0);"><i class="fas fa-trash-alt"></i></a>'
+        render: (id: string) => '<a name="btnDetailPass" href="javascript:void(0);" style="margin-left: 15px; margin-right: 15px;"><i class="fas fa-edit"></i></a><a name="btnDeletePass" href="javascript:void(0);"><i class="fas fa-trash-alt"></i></a>'
       }],
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
+
+        $('[name="btnDetailPass"]', row).bind('click', () => {
+          console.log(data);
+          // En data esta toda la informacion del objeto de la fila a la que se le hizo click
+          this.showDetailModal();
+        });
+
         $('[name="btnDeletePass"]', row).bind('click', () => {
           console.log(data);
           // En data esta toda la informacion del objeto de la fila a la que se le hizo click
           this.showDeleteModal();
         });
+
       }
     };
   }
 
-  showDeleteModal(): void{
+  showDeleteModal(): void {
     $('#deletePasswordtModal').modal('show');
+  }
+
+  showDetailModal(): void {
+    $('#detailPasswordtModal').modal('show');
   }
 }

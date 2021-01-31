@@ -110,7 +110,7 @@ export class PasswordListComponent implements OnInit {
         name: 'id',
         data: 'id',
         orderable: false,
-        render: (id: string) => '<a name="btnDetailPass" href="javascript:void(0);" style="margin-left: 15px; margin-right: 15px;"><i class="fas fa-edit"></i></a><a name="btnDeletePass" href="javascript:void(0);"><i class="fas fa-trash-alt"></i></a>'
+        render: (id: string) => '<a name="btnDetailPass" href="javascript:void(0);" style="margin-left: 15px; margin-right: 15px;"><i class="far fa-eye"></i></a><a name="btnEditPass" href="javascript:void(0);" style="margin-right: 15px;"><i class="fas fa-edit"></i></a><a name="btnDeletePass" href="javascript:void(0);"><i class="fas fa-trash-alt"></i></a>'
       }],
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
 

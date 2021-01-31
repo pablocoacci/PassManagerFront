@@ -1,0 +1,12 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .button-action {
+      margin-left: 30px;
+      width: 200px;
+  }

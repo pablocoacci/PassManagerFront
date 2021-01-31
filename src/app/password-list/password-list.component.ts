@@ -10,6 +10,18 @@ declare var $: any;
 })
 export class PasswordListComponent implements OnInit {
 
+  lng: DataTables.LanguageSettings = {
+    info: "Mostrando _START_ a _END_ de _MAX_ Registros",
+    search: "Buscar ",
+    lengthMenu: "Mostrando _MENU_ Registros",
+    infoFiltered: "(filtrado de _MAX_ registros)",
+    paginate: {
+      first: '<i class="fas fa-angle-double-left"></i>',
+      last: '<i class="fas fa-angle-double-right"></i>',
+      next: '<i class="far fa-arrow-alt-circle-right"></i>',      
+      previous: '<i class="far fa-arrow-alt-circle-left"></i>'
+    }
+  }
   // @ViewChild('deletePasswordModal') deleteModal; 
   dtOptions: DataTables.Settings = {};
   dataTest = [
@@ -82,6 +94,7 @@ export class PasswordListComponent implements OnInit {
     this.dtOptions = {
       // pagingType: 'full_numbers',
       // pageLength: 2,
+      language: this.lng,
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {

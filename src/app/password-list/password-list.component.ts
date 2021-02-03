@@ -98,7 +98,8 @@ export class PasswordListComponent implements OnInit {
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
-        console.log("entro al callback")
+        console.log("entro al callback");
+        console.log(dataTablesParameters);
         callback({
           recordsTotal: 12,
           recordsFiltered: 12,

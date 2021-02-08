@@ -1,5 +1,7 @@
+import { SortParams } from './../shared/models/datatable.models';
 import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { DatatableService } from '../shared/datatable.service';
 
 declare var $: any;
 
@@ -87,7 +89,7 @@ export class PasswordListComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(private datatableService: DatatableService) { }
 
   ngOnInit(): void {
 
@@ -99,7 +101,13 @@ export class PasswordListComponent implements OnInit {
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
         console.log("entro al callback");
-        console.log(dataTablesParameters);
+        // console.log(dataTablesParameters);
+
+        let page = this.datatableService.getPageParams(dataTablesParameters);
+        let sort = this.datatableService.getSortParamas(dataTablesParameters);
+
+        console.log(sort);
+
         callback({
           recordsTotal: 12,
           recordsFiltered: 12,
@@ -109,20 +117,23 @@ export class PasswordListComponent implements OnInit {
       columns: [
       {
         title: 'ID',
-        data: 'id'
+        data: 'id',
+        name: 'id'
       }, 
       {
         title: 'First name',
-        data: 'firstName'
+        data: 'firstName',
+        name: 'firstName'
       }, 
       {
         title: 'Last name',
-        data: 'lastName'
+        data: 'lastName',
+        name: 'lastName'
       },
       {
         title: 'Action',
-        name: 'id',
-        data: 'id',
+        name: 'action',
+        data: 'action',
         orderable: false,
         render: (id: string) => '<a name="btnDetailPass" href="javascript:void(0);" style="margin-left: 15px; margin-right: 15px;"><i class="far fa-eye"></i></a><a name="btnEditPass" href="javascript:void(0);" style="margin-right: 15px;"><i class="fas fa-edit"></i></a><a name="btnDeletePass" href="javascript:void(0);"><i class="fas fa-trash-alt"></i></a>'
       }],

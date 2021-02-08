@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +13,15 @@ import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CreatePasswordComponent } from './create-password/create-password.component';
 import { DataTablesModule } from 'angular-datatables';
+import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ConfigService } from './shared/config.service';
+import { InterceptorService } from './shared/interceptor.service';
+import { LoadingComponent } from './shared/loading/loading.component';
+
+export function init(config: ConfigService) {
+  return () => config.load();
+}
 
 @NgModule({
   declarations: [
@@ -25,14 +34,31 @@ import { DataTablesModule } from 'angular-datatables';
     SiteLayoutComponent,
     RegisterComponent,
     ProfileComponent,
-    CreatePasswordComponent
+    CreatePasswordComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
     DataTablesModule
   ],
-  providers: [],
+  providers: [
+    HttpClient,
+    ConfigService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: init,
+      deps: [ConfigService],
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

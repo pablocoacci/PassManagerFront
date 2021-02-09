@@ -11,7 +11,9 @@ export class AccountService {
   static readonly TOKEN = 'token';
   static readonly UserName = 'account';
 
-  constructor(private httpClient: HttpClient, private config: ConfigService) { }
+  constructor(
+    private httpClient: HttpClient, 
+    private config: ConfigService) { }
 
   login(data: LoginRequest) {
     return new Observable(o => {

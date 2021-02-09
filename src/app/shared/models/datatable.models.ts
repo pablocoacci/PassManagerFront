@@ -1,9 +1,9 @@
 export interface PageParams {
-    skip: number;
-    take: number;
+    Skip: number;
+    Take: number;
 }
 
 export interface SortParams {
-    sortBy: string[],
-    sortDir: string[]
+    SortBy: string[],
+    SortDir: number[]
 }

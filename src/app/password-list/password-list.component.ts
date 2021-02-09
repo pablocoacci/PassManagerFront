@@ -1,7 +1,10 @@
+import { LoadingService } from './../shared/loading/loading.service';
 import { SortParams } from './../shared/models/datatable.models';
 import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatatableService } from '../shared/datatable.service';
+import { PasswordsDalService } from '../shared/passwords-dal.service';
+import { PasswordDetail } from '../shared/models/passwords-dal.model';
 
 declare var $: any;
 
@@ -12,123 +15,56 @@ declare var $: any;
 })
 export class PasswordListComponent implements OnInit {
 
-  lng: DataTables.LanguageSettings = {
-    info: "Mostrando _START_ a _END_ de _MAX_ Registros",
-    search: "Buscar ",
-    lengthMenu: "Mostrando _MENU_ Registros",
-    infoFiltered: "(filtrado de _MAX_ registros)",
-    paginate: {
-      first: '<i class="fas fa-angle-double-left"></i>',
-      last: '<i class="fas fa-angle-double-right"></i>',
-      next: '<i class="far fa-arrow-alt-circle-right"></i>',      
-      previous: '<i class="far fa-arrow-alt-circle-left"></i>'
-    }
-  }
-  // @ViewChild('deletePasswordModal') deleteModal; 
   dtOptions: DataTables.Settings = {};
-  dataTest = [
-    {
-      "id": 860,
-      "firstName": "Superman",
-      "lastName": "Yoda"
-    },
-    {
-      "id": 870,
-      "firstName": "Foo",
-      "lastName": "Whateveryournameis"
-    },
-    {
-      "id": 590,
-      "firstName": "Toto",
-      "lastName": "Titi"
-    },
-	{
-      "id": 860,
-      "firstName": "Petter",
-      "lastName": "Parker"
-    },
-    {
-      "id": 870,
-      "firstName": "Bruce",
-      "lastName": "Banner"
-    },
-    {
-      "id": 590,
-      "firstName": "Steve",
-      "lastName": "Rogers"
-    },
-	{
-      "id": 860,
-      "firstName": "Tony",
-      "lastName": "Stark"
-    },
-    {
-      "id": 870,
-      "firstName": "Steven",
-      "lastName": "Strange"
-    },
-    {
-      "id": 590,
-      "firstName": "Leonardo",
-      "lastName": "Da Vincci"
-    },
-	{
-      "id": 860,
-      "firstName": "Gandalf",
-      "lastName": "El Gris"
-    },
-    {
-      "id": 870,
-      "firstName": "Matt",
-      "lastName": "Murdock"
-    },
-    {
-      "id": 590,
-      "firstName": "Pepe",
-      "lastName": "Marmota"
-    }
-  ];
+  passwordDetail: PasswordDetail = null;
 
-  constructor(private datatableService: DatatableService) { }
+  constructor(
+    private datatableService: DatatableService,
+    private passwordService: PasswordsDalService,
+    private loadingService: LoadingService
+    ) { }
 
   ngOnInit(): void {
-
     this.dtOptions = {
-      // pagingType: 'full_numbers',
-      // pageLength: 2,
-      language: this.lng,
+      language: this.datatableService.getLenguajeConfig(),
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
-        console.log("entro al callback");
-        // console.log(dataTablesParameters);
 
         let page = this.datatableService.getPageParams(dataTablesParameters);
         let sort = this.datatableService.getSortParamas(dataTablesParameters);
+        let searchFilter = this.datatableService.getSearchTableFilter(dataTablesParameters);
 
-        console.log(sort);
+        this.passwordService.getPasswordsList(page, sort, searchFilter).subscribe(resp => {
 
-        callback({
-          recordsTotal: 12,
-          recordsFiltered: 12,
-          data: this.dataTest
+          callback({
+            recordsTotal: resp.data.total,
+            recordsFiltered: resp.data.total,
+            data: resp.data.results
+          });
         });
       },
       columns: [
       {
+        visible: false,
         title: 'ID',
-        data: 'id',
-        name: 'id'
+        data: 'passwordSiteId',
+        name: 'passwordSiteId'
       }, 
       {
-        title: 'First name',
-        data: 'firstName',
-        name: 'firstName'
+        title: 'Sitio',
+        data: 'nameSite',
+        name: 'nameSite'
       }, 
       {
-        title: 'Last name',
-        data: 'lastName',
-        name: 'lastName'
+        title: 'User Name',
+        data: 'userNameSite',
+        name: 'userNameSite'
+      },
+      {
+        title: 'Password',
+        data: 'password',
+        name: 'password'
       },
       {
         title: 'Action',
@@ -137,12 +73,10 @@ export class PasswordListComponent implements OnInit {
         orderable: false,
         render: (id: string) => '<a name="btnDetailPass" href="javascript:void(0);" style="margin-left: 15px; margin-right: 15px;"><i class="far fa-eye"></i></a><a name="btnEditPass" href="javascript:void(0);" style="margin-right: 15px;"><i class="fas fa-edit"></i></a><a name="btnDeletePass" href="javascript:void(0);"><i class="fas fa-trash-alt"></i></a>'
       }],
-      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+      rowCallback: (row: Node, data: any | Object, index: number) => {
 
         $('[name="btnDetailPass"]', row).bind('click', () => {
-          console.log(data);
-          // En data esta toda la informacion del objeto de la fila a la que se le hizo click
-          this.showDetailModal();
+          this.showDetailModal(data.passwordSiteId);
         });
 
         $('[name="btnDeletePass"]', row).bind('click', () => {
@@ -159,7 +93,15 @@ export class PasswordListComponent implements OnInit {
     $('#deletePasswordtModal').modal('show');
   }
 
-  showDetailModal(): void {
-    $('#detailPasswordtModal').modal('show');
+  showDetailModal(passwordId: string): void {
+    this.loadingService.show();
+    this.passwordService.getPasswordDetail(passwordId).subscribe(resp => {
+      this.passwordDetail = resp.data;
+
+      console.log(this.passwordDetail.nameSite);
+
+      $('#detailPasswordtModal').modal('show');
+      this.loadingService.hide();
+    })
   }
 }

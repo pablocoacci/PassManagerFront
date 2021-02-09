@@ -13,12 +13,10 @@ export class InterceptorService implements HttpInterceptor {
   constructor(private auth: AccountService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("entro al incerpetor");
     let headers = req.headers || new HttpHeaders();
 
     return this.auth.getTokenAsObservable().pipe(
       mergeMap((accessToken: string) => {
-        console.log("entro al mergeMap");
         headers = headers.append('Authorization', 'Bearer ' + accessToken);
         return next.handle(req.clone({ headers }));
       }),

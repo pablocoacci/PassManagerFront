@@ -18,6 +18,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { ConfigService } from './shared/config.service';
 import { InterceptorService } from './shared/interceptor.service';
 import { LoadingComponent } from './shared/loading/loading.component';
+import { PasswordDetailModalComponent } from './password-list/modal/password-detail-modal/password-detail-modal.component';
 
 export function init(config: ConfigService) {
   return () => config.load();
@@ -35,7 +36,8 @@ export function init(config: ConfigService) {
     RegisterComponent,
     ProfileComponent,
     CreatePasswordComponent,
-    LoadingComponent
+    LoadingComponent,
+    PasswordDetailModalComponent
   ],
   imports: [
     BrowserModule,
